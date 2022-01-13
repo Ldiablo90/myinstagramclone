@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+
 import AuthScreen from './screens/AuthScreen';
+import MainScreen from './screens/MainScreen'
 
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from 'firebase/auth' 
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtm0NpZe66Xmtk3ABA_QshKggcuJpFhZg",
@@ -15,24 +17,28 @@ const firebaseConfig = {
   measurementId: "G-X790V9SR55"
 };
 
-getApps.length === 0 ? initializeApp(firebaseConfig):'';
+getApps.length === 0 ? initializeApp(firebaseConfig) : '';
 
 
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null)
 
-  const useHandler = user => user?setCurrentUser(user):setCurrentUser(null)
-  useEffect(() => {getAuth().onAuthStateChanged( user => useHandler(user))}, [])
+  const useHandler = user => user ? setCurrentUser(user) : setCurrentUser(null)
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => useHandler(user))
+  }, [])
+
   return (
     <View style={styles.container}>
-      { currentUser ? <Text>Login Sucsesse</Text> : <AuthScreen />  }
+      { currentUser? <MainScreen />:<AuthScreen /> } 
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex: 1
   }
 })
