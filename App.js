@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
+import rootReduser from './redux/reducers';
 import AuthScreen from './screens/AuthScreen';
 import MainScreen from './screens/MainScreen'
 
@@ -17,24 +21,29 @@ const firebaseConfig = {
   measurementId: "G-X790V9SR55"
 };
 
+const store = createStore(rootReduser, applyMiddleware(thunk))
+
 getApps.length === 0 ? initializeApp(firebaseConfig) : '';
 
-
-
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(null)
 
-  const useHandler = user => user ? setCurrentUser(user) : setCurrentUser(null)
+  const [loaded, setLoaded] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+
   useEffect(() => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => useHandler(user))
+    onAuthStateChanged(auth, (user) => {
+      setLoaded(true)
+      user ? setLoggedIn(true) : setLoggedIn(false)
+    })
   }, [])
 
-  return (
-    <View style={styles.container}>
-      { currentUser? <MainScreen />:<AuthScreen /> } 
-    </View>
-  )
+  if (!loaded) {
+    return (<View style={[styles.container,{justifyContent:'center',alignItems:'center'}]}><Text>Loading</Text></View>)
+  } else {
+    if (!loggedIn) { return (<View style={styles.container}><AuthScreen /></View>) }
+    else { return (<Provider store={store}><MainScreen /></Provider>) }
+  }
 }
 
 const styles = StyleSheet.create({
