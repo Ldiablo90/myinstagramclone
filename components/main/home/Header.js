@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
 
-const Header = () => {
+const Header = ({ navigation }) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.logowrapper}>
@@ -11,7 +11,7 @@ const Header = () => {
 
             </View>
             <View style={styles.iconWrapper}>
-                <TouchableOpacity style={styles.icons}>
+                <TouchableOpacity style={styles.icons} onPress={()=> navigation.navigate('AddFeed')}>
                     <MaterialCommunityIcons name='plus-box-outline' size={26} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.icons}>

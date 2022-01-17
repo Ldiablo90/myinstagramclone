@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         borderColor: 'gainsboro',
         borderRadius: 5,
         marginBottom: 15,
-        fontSize: '.7rem',
+        // fontSize: '.7rem',
         outlineStyle: 'none'
     },
     signupbtn: {

@@ -1,21 +1,27 @@
-import React from 'react'
-import { getAuth, signOut } from 'firebase/auth'
+import React, { useEffect } from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons' 
 import AntDesign from 'react-native-vector-icons/AntDesign' 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons' 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { fetchUser } from '../redux/actions/index';
 import Home from '../components/main/Home'
 import Search from '../components/main/Search'
 import Video from '../components/main/Video'
 import Shop from '../components/main/Shop'
 import Profile from '../components/main/Profile'
 
-const MainScreen = () => {
-    const signOutBtn = () => {
-        signOut(getAuth())
-    }
+
+
+const MainScreen = (props) => {
+
+    useEffect(() => {
+        props.fetchUser()
+    }, [])
+
     const Tab = createMaterialBottomTabNavigator()
 
     return (
@@ -51,4 +57,15 @@ const MainScreen = () => {
     )
 }
 
-export default MainScreen
+const mapStateToProps = (store) =>({
+    currentUser: store.userState.currentUser
+})
+
+const mapDispatchProps = (dispatch)=> bindActionCreators({
+    fetchUser
+},dispatch)
+
+
+
+export default connect(mapStateToProps, mapDispatchProps)(MainScreen)
+// export default MainScreen
