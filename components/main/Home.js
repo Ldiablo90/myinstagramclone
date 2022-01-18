@@ -1,22 +1,12 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { View } from 'react-native'
+import Header from './home/Header'
 
-import Feed from './home/Feed'
-import AddFeed from './home/AddFeed'
-
-const Stack = createNativeStackNavigator()
-
-const screenOption = {
-    headerShown: false
-}
-
-const Home = () => {
+const Home = (navigation) => {
     return (
-        <Stack.Navigator initialRouteName='Feed' screenOptions={screenOption}>
-            <Stack.Screen name='Feed' component={Feed} />
-            <Stack.Screen name='AddFeed' component={AddFeed} />
-        </Stack.Navigator>
+        <View>
+            <Header navigation={navigation} />
+        </View>
     )
 }
 

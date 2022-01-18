@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, NavigationContainer } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+
 import rootReduser from './redux/reducers';
 import AuthScreen from './screens/AuthScreen';
-import MainScreen from './screens/MainScreen'
+import MainScreen from './screens/MainScreen';
+import AddFeedScreen from './screens/AddFeedScreen';
 import { fireAuth } from './firebase';
 
 
@@ -15,8 +19,14 @@ const { onAuthStateChanged, getAuth } = fireAuth
 
 export default function App() {
 
-  const [loaded, setLoaded] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loaded, setLoaded] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const Stack = createNativeStackNavigator();
+  const screenOption = {
+    headerShown: false
+  }
+
 
   useEffect(() => {
 
@@ -28,10 +38,29 @@ export default function App() {
   }, [])
 
   if (!loaded) {
-    return (<View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}><Text>Loading</Text></View>)
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text>Loading</Text>
+      </View>
+    )
   } else {
-    if (!loggedIn) { return (<View style={styles.container}><AuthScreen /></View>) }
-    else { return (<Provider store={store}><MainScreen /></Provider>) }
+    if (!loggedIn) {
+      return (
+        <View style={styles.container}><AuthScreen /></View>
+      )
+    }
+    else {
+      return (
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName='MainScreen' screenOptions={screenOption}>
+              <Stack.Screen name='MainScreen' component={MainScreen}/>
+              <Stack.Screen name='AddFeedScreen' component={AddFeedScreen}/>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
+      )
+    }
   }
 }
 

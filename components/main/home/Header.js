@@ -11,7 +11,7 @@ const Header = ({ navigation }) => {
 
             </View>
             <View style={styles.iconWrapper}>
-                <TouchableOpacity style={styles.icons} onPress={()=> navigation.navigate('AddFeed')}>
+                <TouchableOpacity style={styles.icons} onPress={()=> navigation.push('AddFeedScreen')}>
                     <MaterialCommunityIcons name='plus-box-outline' size={26} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.icons}>

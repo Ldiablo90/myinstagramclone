@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 
 export default function AddFeed() {
   const [hasPermission, setHasPermission] = useState(null);
+  const [camera, setCamera] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
