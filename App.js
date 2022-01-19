@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, NavigationContainer } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
@@ -26,8 +27,6 @@ export default function App() {
   const screenOption = {
     headerShown: false
   }
-
-
   useEffect(() => {
 
     const auth = getAuth();
@@ -52,10 +51,10 @@ export default function App() {
     else {
       return (
         <Provider store={store}>
-          <NavigationContainer>
+          <NavigationContainer >
             <Stack.Navigator initialRouteName='MainScreen' screenOptions={screenOption}>
-              <Stack.Screen name='MainScreen' component={MainScreen}/>
-              <Stack.Screen name='AddFeedScreen' component={AddFeedScreen}/>
+              <Stack.Screen name='MainScreen' component={MainScreen} />
+              <Stack.Screen name='AddFeedScreen' component={AddFeedScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </Provider>

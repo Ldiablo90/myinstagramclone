@@ -12,8 +12,8 @@ const firebaseConfig = {
 
 getApps.length === 0 ? initializeApp(firebaseConfig) : '';
 
-const fireStore = require('firebase/firestore')
-const fireAuth = require('firebase/auth')
-const fireStorage = "require('firebase/firebase-storage')"
+const fireStore = require('firebase/firestore');
+const fireAuth = require('firebase/auth');
+const fireStorage = require('firebase/storage');
 
 export { fireAuth, fireStore, fireStorage }

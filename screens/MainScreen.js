@@ -1,12 +1,26 @@
+// import React from 'react'
+// import { View, Text } from 'react-native'
+
+// const MainScreen = () => {
+//     return (
+//         <View>
+//             <Text>MainScreen</Text>
+//         </View>
+//     )
+// }
+
+// export default MainScreen
+
+
+
+
 import React, { useEffect } from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { fetchUser } from '../redux/actions/index';
 import Home from '../components/main/Home'
@@ -14,21 +28,22 @@ import Search from '../components/main/Search'
 import Video from '../components/main/Video'
 import Shop from '../components/main/Shop'
 import Profile from '../components/main/Profile'
+import { View } from 'react-native'
 
 
-const MainScreen = (props, { navigation }) => {
+const MainScreen = (props) => {
 
     useEffect(() => {
         props.fetchUser()
     }, [])
 
-    const Stack = createNativeStackNavigator();
     const Tab = createMaterialBottomTabNavigator()
 
     return (
-        <NavigationContainer>
+        <View style={{ flex: 1 }}>
+
             <Tab.Navigator initialRouteName="Home" barStyle={{ backgroundColor: 'white' }} labeled={false} >
-                <Tab.Screen name="Home" component={Home(navigation)} options={{
+                <Tab.Screen name="Home" component={Home} navigation={props.navigation} options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="home-variant" color={color} size={26} />
                     )
@@ -54,7 +69,8 @@ const MainScreen = (props, { navigation }) => {
                     )
                 }} />
             </Tab.Navigator>
-        </NavigationContainer>
+        </View>
+
     )
 }
 
