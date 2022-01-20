@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { Button, Image, View  } from 'react-native';
+import { Button, Image, View, TextInput  } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { fireAuth, fireStore, fireStorage } from '../firebase'
 
 const { getAuth } = fireAuth
-const { getFirestore, doc, addDoc, collection } = fireStore
+const { getFirestore, doc, setDoc, collection, serverTimestamp } = fireStore
 const { getStorage, ref, uploadBytesResumable, getDownloadURL } = fireStorage
 
 const AddFeedScreen = ({navigation}) => {
 
     const [image, setImage] = useState('https://picsum.photos/200/200');
+    const [explanation, setExplanation] = useState('');
     const storage = getStorage();
     const auth = getAuth();
-    const store = getFirestore();
+    const db = getFirestore();
 
     const uploadImage = async () => {
 
-        const uri = image;
         const childPath = `post/${auth.currentUser.uid}/${Math.random().toString(36)}`;
-        const response = await fetch(uri);
+        const response = await fetch(image);
         const blol = await response.blob();
         const storageRef = ref(storage, childPath);
         const uploadTask = uploadBytesResumable(storageRef,blol);
@@ -36,8 +36,11 @@ const AddFeedScreen = ({navigation}) => {
     }
 
     const savePostData = (downloadURL)=>{
-        addDoc(collection(doc(store,'posts',auth.currentUser.uid),'userPosts'),{
-            downloadURL,image, creation: store.FieldValue.serverTimerstamp()
+        const fireOut = doc(db, 'posts', auth.currentUser.uid)
+        const fireInner = doc(collection(fireOut, 'userPosts'))
+
+        setDoc(fireInner,{
+            downloadURL,explanation, creation: serverTimestamp()
         }).then(()=> navigation.goBack())
     }
 
@@ -58,6 +61,7 @@ const AddFeedScreen = ({navigation}) => {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            <TextInput placeholder='It is Title' onChangeText={(e) => setExplanation(e)}/>
             <Button title="Pick an image from camera roll" onPress={pickImage} />
             <Button title='Save' onPress={uploadImage} />
         </View>

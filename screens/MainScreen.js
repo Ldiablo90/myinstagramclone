@@ -1,18 +1,3 @@
-// import React from 'react'
-// import { View, Text } from 'react-native'
-
-// const MainScreen = () => {
-//     return (
-//         <View>
-//             <Text>MainScreen</Text>
-//         </View>
-//     )
-// }
-
-// export default MainScreen
-
-
-
 
 import React, { useEffect } from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
@@ -22,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchUser } from '../redux/actions/index';
+import { fetchUser, fetchUserPosts } from '../redux/actions/index';
 import Home from '../components/main/Home'
 import Search from '../components/main/Search'
 import Video from '../components/main/Video'
@@ -34,9 +19,9 @@ import { View } from 'react-native'
 const MainScreen = (props) => {
 
     useEffect(() => {
-        props.fetchUser()
+        props.fetchUser();
+        props.fetchUserPosts();
     }, [])
-
     const Tab = createMaterialBottomTabNavigator()
 
     return (
@@ -75,11 +60,11 @@ const MainScreen = (props) => {
 }
 
 const mapStateToProps = (store) => ({
-    currentUser: store.userState.currentUser
+    currentUser: store.userState.currentUser,
 })
 
 const mapDispatchProps = (dispatch) => bindActionCreators({
-    fetchUser
+    fetchUser, fetchUserPosts
 }, dispatch)
 
 

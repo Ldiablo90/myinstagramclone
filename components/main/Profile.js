@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image, FlatList } from 'react-native'
+import { connect } from 'react-redux'
 
-const Profile = () => {
+const Profile = (props) => {
+    console.log({props})
     return (
         <View>
             <Text>Profile React</Text>
@@ -9,4 +11,10 @@ const Profile = () => {
     )
 }
 
-export default Profile
+const mapStateToProps = (store) => ({
+    currentUser : store.userState.currentUser,
+    posts: store.userState.posts
+})
+
+
+export default connect(mapStateToProps,null)(Profile);
