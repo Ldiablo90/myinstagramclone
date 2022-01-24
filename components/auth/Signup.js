@@ -18,18 +18,17 @@ const Signup = ({ navigation }) => {
 
     const db = getFirestore();
     const auth = getAuth();
+    const defaultImg = 'https://firebasestorage.googleapis.com/v0/b/myinstagramclone-7a555.appspot.com/o/default%2FdefaultProfile.png?alt=media&token=cbc469fa-01d7-4b05-9736-1a3df4628bdd'
     const onSignUp = (email, password, name) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((result) => {
-                setDoc(doc(db, 'users', auth.currentUser.uid), { email, name });
+                setDoc(doc(db, 'users', auth.currentUser.uid), { email, name, profileimg: defaultImg });
                 navigation.goBack()
             })
             .catch(err => console.log('이미 가입된 아이디 혹은 잘못된 입력값 입니다.'))
-
     }
 
     return (
-
         <View style={styles.container}>
             <View style={styles.content}>
                 <Image style={styles.logo} source={require(`../../assets/instagramlogo.png`)} />

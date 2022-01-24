@@ -14,21 +14,25 @@ import Video from '../components/main/Video'
 import Shop from '../components/main/Shop'
 import Profile from '../components/main/Profile'
 import { View } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
 
 
 const MainScreen = (props) => {
+
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         props.fetchUser();
         props.fetchUserPosts();
     }, [])
+
     const Tab = createMaterialBottomTabNavigator()
 
     return (
         <View style={{ flex: 1 }}>
 
             <Tab.Navigator initialRouteName="Home" barStyle={{ backgroundColor: 'white' }} labeled={false} >
-                <Tab.Screen name="Home" component={Home} navigation={props.navigation} options={{
+                <Tab.Screen name="Home" component={Home} options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="home-variant" color={color} size={26} />
                     )

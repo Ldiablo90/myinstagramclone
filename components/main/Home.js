@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, FlatList } from 'react-native'
 import Header from './home/Header'
 
 const Home = ({navigation}) => {

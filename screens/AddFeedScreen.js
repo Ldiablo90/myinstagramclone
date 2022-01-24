@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Button, Image, View, TextInput  } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { fireAuth, fireStore, fireStorage } from '../firebase'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchUserPosts } from '../redux/actions';
+
 
 const { getAuth } = fireAuth
 const { getFirestore, doc, setDoc, collection, serverTimestamp } = fireStore
 const { getStorage, ref, uploadBytesResumable, getDownloadURL } = fireStorage
 
-const AddFeedScreen = ({navigation}) => {
+const AddFeedScreen = (props) => {
 
+    const {navigation} = props;
     const [image, setImage] = useState('https://picsum.photos/200/200');
     const [explanation, setExplanation] = useState('');
     const storage = getStorage();
@@ -24,7 +29,6 @@ const AddFeedScreen = ({navigation}) => {
         const uploadTask = uploadBytesResumable(storageRef,blol);
 
         const taskProgress = snapshot => {
-            console.log(`transferred : ${snapshot.bytesTransferred}`)
         }
         const taskError = snapshot => {
             console.log(snapshot) 
@@ -41,7 +45,10 @@ const AddFeedScreen = ({navigation}) => {
 
         setDoc(fireInner,{
             downloadURL,explanation, creation: serverTimestamp()
-        }).then(()=> navigation.goBack())
+        }).then(()=> {
+            props.fetchUserPosts()
+            navigation.goBack()
+        })
     }
 
     const pickImage = async () => {
@@ -67,4 +74,11 @@ const AddFeedScreen = ({navigation}) => {
         </View>
     );
 }
-export default AddFeedScreen
+
+const mapDispatchProps = (dispatch) => bindActionCreators({
+    fetchUserPosts
+}, dispatch)
+
+
+
+export default connect(null, mapDispatchProps)(AddFeedScreen)
