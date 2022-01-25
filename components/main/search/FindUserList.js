@@ -4,7 +4,7 @@ import React from 'react';
 const FindUserList = () => {
   return (
     <View>
-      <Text>FindUserList</Text>
+      <Text>FindUserList is im besszy</Text>
     </View>
   );
 };
