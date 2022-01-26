@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, FlatList, Button, StyleSheet, TouchableOpacity } from 'react-native'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import { fireStore, fireAuth } from '../../firebase'
 import FindUserList from './search/FindUserList'
 
@@ -7,7 +9,6 @@ const { getFirestore, getDocs, where, query, collection } = fireStore
 const { getAuth } = fireAuth
 const firestore = getFirestore()
 const fireCollection = collection(firestore, 'users')
-
 const Search = () => {
     const [users, setUsers] = useState([])
     const [searchUsers, setSearchUsers] = useState(false)
@@ -22,14 +23,21 @@ const Search = () => {
     }
     return (
         <View style={styles.container}>
-            <View style={styles.searchwrapper}>
-                {!searchUsers ? <View></View> : <TouchableOpacity></TouchableOpacity>}
-                <TextInput
-                    style={styles.searchinput}
-                    onFocus={() => setSearchUsers(true)}
-                    onChangeText={(search) => fetchUsers(search)}
-                    placeholder='Search'
-                />
+            <View style={styles.searchouter}>
+                <View style={styles.searchinner}>
+                    {!searchUsers
+                        ? <View></View>
+                        : <TouchableOpacity onPress={()=> setSearchUsers(false)}>
+                            <MaterialCommunityIcons name='arrow-left' color={'black'} size={24}/>
+                          </TouchableOpacity>}
+                    <TextInput
+                        style={styles.searchinput}
+                        onFocus={() => setSearchUsers(true)}
+                        onChangeText={(search) => fetchUsers(search)}
+                        placeholder='Search'
+                    />
+
+                </View>
             </View>
             {!searchUsers ? <View></View> : <FindUserList />}
 
@@ -42,17 +50,22 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    searchwrapper: {
-        flexDirection:'row',
-        width: '100%',
+    searchouter: {
+        flexDirection: 'row',
         height: 40,
-        alignItems:'center'
+        marginHorizontal: 10,
+        alignItems: 'center',
+    },
+    searchinner: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems:'center',
     },
     searchinput: {
-        flex:1,
+        flex: 1,
         backgroundColor: 'whitesmoke',
         borderRadius: 5,
-        paddingVertical:5,
+        padding: 5,
     }
 })
 
