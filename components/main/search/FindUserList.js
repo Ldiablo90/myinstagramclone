@@ -16,18 +16,18 @@ const dbCollection = collection(db, 'users');
 
 const FindUserList = ({ data }) => {
 
-  const emailUsers = (search) => {
-    const firequery = query(dbCollection, where('email', '>=', search));
-    const findUsers = getDocs(firequery);
-    findUsers.then(snepshot => {
-      let users = snepshot.docs.map(doc => {
-        const id = doc.id;
-        const data = doc.data();
-        return { id, ...data }
-      })
-      setUsers(users)
-    })
-  }
+  // const emailUsers = (search) => {
+  //   const firequery = query(dbCollection, where('email', '>=', search));
+  //   const findUsers = getDocs(firequery);
+  //   findUsers.then(snepshot => {
+  //     let users = snepshot.docs.map(doc => {
+  //       const id = doc.id;
+  //       const data = doc.data();
+  //       return { id, ...data }
+  //     })
+  //     setUsers(users)
+  //   })
+  // }
   return (
     <Tab.Navigator>
       <Tab.Screen name='E-mail' component={Semail} initialParams={{data}}/>

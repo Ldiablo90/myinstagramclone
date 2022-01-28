@@ -25,7 +25,7 @@ const Search = () => {
                     <TextInput
                         style={styles.searchinput}
                         onFocus={() => setSearchUsers(true)}
-                        onChangeText={(search) => setUsers(search)}
+                        onChangeText={(search) => setUsers(search)}  
                         placeholder='Search'
                     />
 
