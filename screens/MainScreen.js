@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react'
+import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -13,13 +14,12 @@ import Search from '../components/main/Search'
 import Video from '../components/main/Video'
 import Shop from '../components/main/Shop'
 import Profile from '../components/main/Profile'
-import { View } from 'react-native'
-import { useIsFocused } from '@react-navigation/native'
+import { fireAuth } from '../firebase'
 
+const auth = fireAuth.getAuth();
 
 const MainScreen = (props) => {
 
-    const isFocused = useIsFocused();
 
     useEffect(() => {
         props.fetchUser();
@@ -52,11 +52,18 @@ const MainScreen = (props) => {
                         <MaterialCommunityIcons name="shopping-outline" color={color} size={26} />
                     )
                 }} />
-                <Tab.Screen name="Profile" component={Profile} options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name="account-circle" color={color} size={26} />
-                    )
-                }} />
+                <Tab.Screen name="Profile" component={Profile}
+                    listeners={({ navigation }) => ({
+                        tabPress: event => {
+                            event.preventDefault();
+                            navigation.navigate('Profile', {uid : auth.currentUser.uid})
+                        }
+                    })}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialIcons name="account-circle" color={color} size={26} />
+                        )
+                    }} />
             </Tab.Navigator>
         </View>
 

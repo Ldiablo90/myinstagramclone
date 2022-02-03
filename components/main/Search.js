@@ -3,12 +3,31 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'rea
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import FindUserList from './search/FindUserList'
+import { fireStore, fireAuth } from '../../firebase'
 
-const Search = () => {
-    const [users, setUsers] = useState('')
+const { getFirestore, getDocs, where, query, collection } = fireStore;
+const { getAuth } = fireAuth;
+const db = getFirestore();
+const dbCollection = collection(db, 'users');
+
+const Search = (props) => {
+    
+    const [users, setUsers] = useState([])
     const [searchUsers, setSearchUsers] = useState(false)
 
-    
+    const chackUsers = (search) => {
+        const firequery = query(dbCollection, where('name', '>=', search));
+        const findUsers = getDocs(firequery);
+        findUsers.then(snepshot => {
+            let users = snepshot.docs.map(doc => {
+                const id = doc.id;
+                const data = doc.data();
+                return { id, ...data }
+            })
+            setUsers(users)
+        })
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.searchouter}>
@@ -17,21 +36,21 @@ const Search = () => {
                         ? <View></View>
                         : <TouchableOpacity onPress={() => {
                             setSearchUsers(false)
-                            setUsers('')
-                            }}
-                            style={{marginRight:5}}>
+                            setUsers([])
+                        }}
+                            style={{ marginRight: 5 }}>
                             <MaterialCommunityIcons name='arrow-left' color={'black'} size={24} />
-                        </TouchableOpacity>}
+                        </TouchableOpacity>
+                    }
                     <TextInput
                         style={styles.searchinput}
                         onFocus={() => setSearchUsers(true)}
-                        onChangeText={(search) => setUsers(search)}  
+                        onChangeText={(search) => chackUsers(search)}
                         placeholder='Search'
                     />
-
                 </View>
             </View>
-            {!searchUsers ? <View><Text>search view</Text></View> : <FindUserList data={users}/>}
+            {!searchUsers ? <View><Text>search view</Text></View> : <FindUserList navigation={props.navigation} data={users} />}
 
         </View>
     )
@@ -55,7 +74,7 @@ const styles = StyleSheet.create({
     },
     searchinput: {
         flex: 1,
-        height:35,
+        height: 35,
         backgroundColor: 'whitesmoke',
         borderRadius: 5,
         padding: 5,

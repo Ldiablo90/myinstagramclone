@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import React from 'react';
-import { connect } from 'react-redux';
 
 const Title = (props) => {
-    const { currentUser, navigation} = props
+    const { user, navigation } = props
     return (
         <View style={styles.container}>
-            <Text style={{fontWeight:'600', fontSize:18}}>{currentUser.email}</Text>
+            <Text style={{fontWeight:'600', fontSize:18}}>{user}</Text>
             <View style={styles.icons}>
                 <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('AddFeedScreen')}>
                     <MaterialCommunityIcons name='plus-box-outline' size={26} />
@@ -35,9 +34,5 @@ const styles = StyleSheet.create({
     icon:{marginLeft:7}
 })
 
-const mapStateToProps = (store) => ({
-    currentUser : store.userState.currentUser,
-    posts: store.userState.posts
-})
 
-export default connect(mapStateToProps,null)(Title);
+export default Title;

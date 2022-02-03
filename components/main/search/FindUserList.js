@@ -1,38 +1,21 @@
-import { Text, FlatList, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-import { fireStore, fireAuth } from '../../../firebase'
-import Semail from './Semail';
-import Sname from './Sname';
-
-const Tab = createMaterialTopTabNavigator();
-
-const { getFirestore, getDocs, where, query, collection } = fireStore;
-const { getAuth } = fireAuth;
-const db = getFirestore();
-const dbCollection = collection(db, 'users');
-
-
-const FindUserList = ({ data }) => {
-
-  // const emailUsers = (search) => {
-  //   const firequery = query(dbCollection, where('email', '>=', search));
-  //   const findUsers = getDocs(firequery);
-  //   findUsers.then(snepshot => {
-  //     let users = snepshot.docs.map(doc => {
-  //       const id = doc.id;
-  //       const data = doc.data();
-  //       return { id, ...data }
-  //     })
-  //     setUsers(users)
-  //   })
-  // }
+const FindUserList = ({navigation, data}) => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name='E-mail' component={Semail} initialParams={{data}}/>
-      <Tab.Screen name='Name' component={Sname} />
-    </Tab.Navigator>
+    // <Text>test</Text>
+    <FlatList
+      numColumns={1}
+      horizontal={false}
+      data={data}
+      renderItem={({ item }) =>
+        <TouchableOpacity onPress={()=> navigation.navigate('Profile', {uid: item.id}) }>
+          <Text>{item.name}</Text>
+        </TouchableOpacity>
+      }
+    />
+
+
   );
 };
 

@@ -5,7 +5,7 @@ const Userinfo = ({ currentUser, posts }) => {
   
   const [myfollow,setMyfollow]= useState([])
   const [myfollowing,setMyfollowing]= useState([])
-
+  
   return (
     <View style={styles.container}>
       <View style={{ alignItems: "center" }}>
@@ -14,7 +14,7 @@ const Userinfo = ({ currentUser, posts }) => {
       </View>
       <View style={{ flex:1, flexDirection:'row', justifyContent: 'space-around'}}>
         <View style={{ alignItems: "center" }}>
-          <Text>{posts.length}</Text>
+          <Text>{posts? posts.length:0}</Text>
           <Text>게시물</Text>
         </View>
         <View style={{ alignItems: "center" }}>
