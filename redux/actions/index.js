@@ -1,8 +1,8 @@
-import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE } from '../constants'
+import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from '../constants'
 
 import { fireAuth, fireStore } from '../../firebase'
 
-const { getFirestore, doc, getDoc, getDocs, collection, orderBy, query } = fireStore;
+const { getFirestore, doc, getDoc, getDocs, collection, orderBy, query, onSnapshot } = fireStore;
 const { getAuth } = fireAuth;
 
 const auth = getAuth()
@@ -38,6 +38,25 @@ export function fetchUserPosts() {
         dispatch({
             type: USER_POSTS_STATE_CHANGE,
             posts : posts
+        })
+    })
+}
+
+export function fetchUserFollowing() {
+    const outDoc = doc(db, 'following', auth.currentUser.uid)
+    const innerDoc = collection(outDoc, 'userFollowing');
+    let following;
+    return (async (dispatch) => {
+        const onSnapshots = await onSnapshot(innerDoc)
+        !onSnapshots.empty ?
+            following = getSnapshot.docs.map(doc => {
+                const id = doc.id;
+                return { id }
+            })
+            : console.log('does empty');
+        dispatch({
+            type: USER_FOLLOWING_STATE_CHANGE,
+            following : following
         })
     })
 }

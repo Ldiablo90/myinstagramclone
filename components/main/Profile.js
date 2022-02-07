@@ -43,7 +43,7 @@ const Profile = (props) => {
                     setUserPosts(posts)
                 }})
         }
-    }, [props.route.params.uid]);
+    }, [props.route.params.uid, props.following]);
     if(user === null){ return <View />}
     return (
         <View style={styles.container}>
@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
-    posts: store.userState.posts
+    posts: store.userState.posts,
+    following: store.userState.following,
 })
 
 

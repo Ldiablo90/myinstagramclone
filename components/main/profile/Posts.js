@@ -16,7 +16,6 @@ const Posts = ({ posts }) => {
                     />
                 )}
             />
-
         </View>
     );
 };
