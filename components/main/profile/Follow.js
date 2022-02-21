@@ -6,7 +6,7 @@ import { fireAuth, fireStore } from '../../../firebase';
 const auth = fireAuth.getAuth();
 const { getFirestore, setDoc, getDoc, doc, deleteDoc } = fireStore;
 
-const Follow = ({ uid }) => {
+const Follow = ({ uid, follows }) => {
 
     const db = getFirestore();
     const innerDoc = doc(db, 'following', auth.currentUser.uid)
@@ -18,7 +18,6 @@ const Follow = ({ uid }) => {
     useEffect(() => {
         getDoc(outDoc)
             .then(snapshot => console.log(snapshot.data()))
-
     }, []);
 
     const follow = () => { setDoc(outDoc, {}); setFollowing(true); };

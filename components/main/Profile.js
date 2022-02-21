@@ -49,7 +49,7 @@ const Profile = (props) => {
         <View style={styles.container}>
             <Title user={user.email} navigation={navigation} />
             <Userinfo currentUser={user} posts={userPosts} />
-            {master?<Follow uid={props.route.params.uid}/>:null}
+            {master?<Follow uid={props.route.params.uid} follows={props.following}/>:null}
             <Posts posts={userPosts}/>
         </View>
     )
