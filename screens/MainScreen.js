@@ -8,7 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchUser, fetchUserPosts } from '../redux/actions/index';
+import { fetchUser, fetchUserPosts, fetchUserFollowing } from '../redux/actions/index';
 import Home from '../components/main/Home'
 import Search from '../components/main/Search'
 import Video from '../components/main/Video'
@@ -24,6 +24,8 @@ const MainScreen = (props) => {
     useEffect(() => {
         props.fetchUser();
         props.fetchUserPosts();
+        props.fetchUserFollowing();
+
     }, [])
 
     const Tab = createMaterialBottomTabNavigator()
@@ -75,7 +77,7 @@ const mapStateToProps = (store) => ({
 })
 
 const mapDispatchProps = (dispatch) => bindActionCreators({
-    fetchUser, fetchUserPosts
+    fetchUser, fetchUserPosts, fetchUserFollowing
 }, dispatch)
 
 
