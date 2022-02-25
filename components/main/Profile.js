@@ -12,8 +12,8 @@ const auth = fireAuth.getAuth();
 const { getFirestore, getDoc, getDocs, doc, collection, query, orderBy } = fireStore;
 
 const Profile = (props) => {
-    const [userPosts, setUserPosts] = useState([]);
     const [user, setUser] = useState(null);
+    const [userPosts, setUserPosts] = useState([]);
     const [master, setMaster] = useState(false);
 
     const { navigation } = props;
@@ -48,7 +48,7 @@ const Profile = (props) => {
     return (
         <View style={styles.container}>
             <Title user={user.email} navigation={navigation} />
-            <Userinfo currentUser={user} posts={userPosts} />
+            <Userinfo currentUser={user} posts={userPosts} follows={props.following} />
             {master?<Follow uid={props.route.params.uid} follows={props.following}/>:null}
             <Posts posts={userPosts}/>
         </View>

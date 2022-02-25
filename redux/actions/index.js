@@ -37,7 +37,7 @@ export function fetchUserPosts() {
             : console.log('does empty');
         dispatch({
             type: USER_POSTS_STATE_CHANGE,
-            posts : posts
+            posts: posts
         })
     })
 }
@@ -45,17 +45,17 @@ export function fetchUserPosts() {
 export function fetchUserFollowing() {
     const outDoc = doc(db, 'following', auth.currentUser.uid)
     const innerDoc = collection(outDoc, 'userFollowing');
-    return (async (dispatch) => {
-        onSnapshot(innerDoc, (snapshot) =>{
+    const querys = query(innerDoc)
+    return ((dispatch) => {
+        const subscribe = onSnapshot(querys, (snapshot) => {
             let following = snapshot.docs.map(doc => {
                 const id = doc.id;
                 return { id }
             })
             dispatch({
                 type: USER_FOLLOWING_STATE_CHANGE,
-                following : following
+                following: following
             })
-            console.log(following)
         })
     })
 }

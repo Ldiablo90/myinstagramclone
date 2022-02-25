@@ -12,13 +12,12 @@ const Follow = ({ uid, follows }) => {
     const innerDoc = doc(db, 'following', auth.currentUser.uid)
 
     const [following, setFollowing] = useState(false);
-
     const outDoc = doc(innerDoc, 'userFollowing', uid)
-
+    
     useEffect(() => {
         getDoc(outDoc)
             .then(snapshot => console.log(snapshot.data()))
-    }, []);
+    }, [follows]);
 
     const follow = () => { setDoc(outDoc, {}); setFollowing(true); };
     const unFollow = () => { deleteDoc(outDoc); setFollowing(false); };

@@ -1,10 +1,17 @@
 import { View, Text, Image, StyleSheet, Button } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Userinfo = ({ currentUser, posts }) => {
+const Userinfo = ({ currentUser, posts, follows }) => {
   
-  const [myfollow,setMyfollow]= useState([])
-  const [myfollowing,setMyfollowing]= useState([])
+  const [myPost,setMyPost]= useState('')
+  const [myFollow,setMyFollow]= useState([])
+  const [myFollowing,setMyFollowing]= useState('')
+
+  useEffect(() => {
+    setMyPost(posts.length)
+    setMyFollowing(follows.length)
+    console.log(follows)
+  }, [posts, follows])
   
   return (
     <View style={styles.container}>
@@ -14,15 +21,15 @@ const Userinfo = ({ currentUser, posts }) => {
       </View>
       <View style={{ flex:1, flexDirection:'row', justifyContent: 'space-around'}}>
         <View style={{ alignItems: "center" }}>
-          <Text>{posts? posts.length:0}</Text>
+          <Text>{myPost}</Text>
           <Text>게시물</Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text>{myfollow.length}</Text>
+          <Text>{myFollow.length}</Text>
           <Text>팔로워</Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text>{myfollowing.length}</Text>
+          <Text>{myFollowing}</Text>
           <Text>팔로잉</Text>
         </View>
       </View>
