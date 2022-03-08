@@ -25,7 +25,6 @@ const MainScreen = (props) => {
         props.fetchUser();
         props.fetchUserPosts();
         props.fetchUserFollowing();
-
     }, [])
 
     const Tab = createMaterialBottomTabNavigator()
