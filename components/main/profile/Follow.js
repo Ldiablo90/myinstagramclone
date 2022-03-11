@@ -7,7 +7,6 @@ const auth = fireAuth.getAuth();
 const { getFirestore, setDoc, getDoc, doc, deleteDoc } = fireStore;
 
 const Follow = ({ uid, follows }) => {
-    console.log(follows)
     const db = getFirestore();
     const innerDoc = doc(db, 'following', auth.currentUser.uid)
 

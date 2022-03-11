@@ -10,7 +10,6 @@ const Userinfo = ({ currentUser, posts, follows }) => {
   useEffect(() => {
     setMyPost(posts.length)
     setMyFollowing(follows.length)
-    console.log(follows)
   }, [posts, follows])
   
   return (
